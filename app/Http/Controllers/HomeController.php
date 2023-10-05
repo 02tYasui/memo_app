@@ -24,7 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('create');
+        $memos = Memo::select('memos.*')
+            ->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('update_at', 'DESC')
+            ->get();
+
+        return view('create', compact('memos'));
     }
 
     public function store(Request $request)
@@ -32,6 +38,37 @@ class HomeController extends Controller
         $posts = $request->all();
 
         Memo::insert(['content' => $posts['content'], 'user_id' => \Auth::id()]);
+
+        return redirect(route('home'));
+    }
+
+    public function edit($id)
+    {
+        $memos = Memo::select('memos.*')
+            ->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('update_at', 'DESC')
+            ->get();
+
+        $edit_memo = Memo::find($id);
+
+        return view('edit', compact('memos', 'edit_memo'));
+    }
+
+    public function update(Request $request)
+    {
+        $posts = $request->all();
+
+        Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
+
+        return redirect(route('home'));
+    }
+
+    public function destroy(Request $request)
+    {
+        $posts = $request->all();
+
+        Memo::where('id', $posts['memo_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
 
         return redirect(route('home'));
     }

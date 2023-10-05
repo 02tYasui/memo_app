@@ -80,8 +80,8 @@
         <main class="py-4">
             <div class="row">
                 <div class="col-md-2 p-0">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-header">中央カラム</div>
+                    <div class="card">
+                        <div class="card-header">左カラム</div>
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up
                                 the bulk
@@ -90,15 +90,13 @@
                     </div>
                 </div>
                 <div class="col-md-4 p-0">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-header">
-                            中央カラム
-                        </div>
+                    <div class="card">
+                        <div class="card-header">メモ一覧</div>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and
-                                make up
-                                the bulk
-                                of the card's content.</p>
+                            @foreach ($memos as $memo)
+                                <a href="/edit/{{ $memo['id'] }}"
+                                    class="card-text d-block">{{ $memo['content'] }}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
