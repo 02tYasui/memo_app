@@ -13,9 +13,13 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('javascript')
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/layout.css">
 </head>
 
 <body>
@@ -79,28 +83,29 @@
 
         <main class="py-4">
             <div class="row">
-                <div class="col-md-2 p-0">
+                <div class="col-sm-12 col-md-2 p-0">
                     <div class="card">
-                        <div class="card-header">左カラム</div>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up
-                                the bulk
-                                of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 p-0">
-                    <div class="card">
-                        <div class="card-header">メモ一覧</div>
-                        <div class="card-body">
-                            @foreach ($memos as $memo)
-                                <a href="/edit/{{ $memo['id'] }}"
-                                    class="card-text d-block">{{ $memo['content'] }}</a>
+                        <div class="card-header">タグ一覧</div>
+                        <div class="card-body my-card-body">
+                            <a href="/" class="card-text d-block mb-2">すべて表示</a>
+                            @foreach ($tags as $tag)
+                                <a href="/?tag={{ $tag['id'] }}" class="card-text d-block elipsis mb-2">{{ $tag['name'] }}</a>
                             @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 p-0">
+                <div class="col-sm-12 col-md-4 p-0">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">メモ一覧 <a href="{{ route('home')}}"><i class="fa-solid fa-plus"></i></a></div>
+                        <div class="card-body my-card-body">
+                            @foreach ($memos as $memo)
+                                <a href="/edit/{{ $memo['id'] }}"
+                                    class="card-text d-block elipsis mb-2">{{ $memo['content'] }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 p-0">
                     @yield('content')
                 </div>
             </div>
